@@ -1,9 +1,20 @@
 /* bar-chart_style.css */
 
+/* 
 .chart div{
   background-color: steelblue;
   text-align: right;
   padding: 3px;
   margin: 1px;
   color: white;
+}
+*/
+
+.chart rect{
+  fill : steelblue;
+}
+
+.chart text{
+  fill: white;
+  text-anchor: end; /* 문자열 정렬 start | middle | end | inherit*/
 }
