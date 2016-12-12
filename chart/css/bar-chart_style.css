@@ -1,0 +1,9 @@
+/* bar-chart_style.css */
+
+.chart div{
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
