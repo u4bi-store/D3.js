@@ -14,6 +14,10 @@
   fill: steelblue;
 }
 
+.bar:hover {
+  fill: red;
+}
+
 .axis text{
   color:#fff;
 }
