@@ -1,1 +1,23 @@
 /* radius-mouse_chart_style.css*/
+
+svg{
+  background-color: gray;
+}
+
+#circleStyle{
+  fill-opacity: 0;
+  stroke:red;
+  stroke-width:2;
+}
+
+#spokeStyle{
+  fill:none;
+  stroke:blue;
+  stroke-width:2;
+  stroke-linecap:round;
+}
+
+#reportStyle{
+  fill:orange;
+  stroke:none;
+}
