@@ -53,20 +53,21 @@ var chart = d3.select('.chart') /* .char 클래스가 선언된 태그를 찾음
   .append('g') /* g 그룹태그를 어펜드해줌*/
   .attr('transform', 'translate(' + info.margin.left + ',' + (info.margin.top) + ')'); /* 선언된 컨테이너의 마진 조정함*/
 
-chart.append('g')
-    .attr('class', 'x axis')
-    .attr('transform', 'translate(0,' + info.height + ')')
-    .call(xAxis);
+chart.append('g') /* 차트 컨테이너에 g 그룹태그를 어팬드함*/
+    .attr('class', 'x axis') /* axis라는 클래스 주입 style.css에서 가져옴*/
+    .attr('transform', 'translate(0,' + info.height + ')') /*translate로 부착될 위치조정 화면아래 즉 차트아래*/
+    .call(xAxis); /* 정의된 xAxis 호출하여 초기화함*/
 
-chart.append('g')
-    .attr('class', 'y axis')
-    .call(yAxis);
+chart.append('g') /* 차트 컨테이너에 g 그룹태그를 어팬드함*/
+    .attr('class', 'y axis') /* axis라는 클래스 주입 style.css에서 가져옴*/
+    .call(yAxis); /* 정의된 xAxis 호출하여 초기화함*/
 
-chart.selectAll('.bar')
-      .data(data)
-    .enter().append('rect')
-      .attr('class', 'bar')
-      .attr('x', function(d) { return x(d.name); })
-      .attr('y', function(d) { return y(d.value); })
-      .attr('height', function(d) { return info.height - y(d.value); })
-      .attr('width', x.rangeBand());
+chart.selectAll('.bar') /* .bar 클래스 찾음*/
+      .data(data) /* json으로 정의된 data 객체를 주입함*/
+    .enter().append('rect') /* 바인딩하고 사각형 태그를 차트 컨테이너 내부의 그룹안에 어펜드함*/
+      .attr('class', 'bar') /* 클래스 주입 style.css내에 정의됨*/
+      .attr('x', function(d) { return x(d.name); }) /* 바인딩된 객체의 name값이 적혀짐*/
+      .attr('y', function(d) { return y(d.value); }) /* 바인딩된 객체의 value값이 적혀짐*/
+      .attr('height', function(d) { return info.height - y(d.value); }) /* 콜백으로 값을 높이를 치수를 가져옴*/
+      /* svg 컨테이너의 높이값 - y()로 변형한 바인딩된 객체(data)내 원소값(value) 즉 범위값*/
+      .attr('width', x.rangeBand()); /* x의 랭쓰에 알맞게 분할하여 width값을 조정함 */
