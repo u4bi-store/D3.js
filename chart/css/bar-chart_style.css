@@ -10,11 +10,20 @@
 }
 */
 
-.chart rect{
-  fill : steelblue;
+.bar {
+  fill: steelblue;
 }
 
-.chart text{
-  fill: white;
-  text-anchor: end; /* 문자열 정렬 start | middle | end | inherit*/
+.axis text{
+  color:#fff;
+}
+
+.axis path, .axis line{
+  fill:none;
+  stroke:#000;
+  shape-rendering:crispEdges;
+}
+
+.x.axis path{
+  display:none;
 }

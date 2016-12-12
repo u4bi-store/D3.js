@@ -1,38 +1,72 @@
 /* bar-chart.js*/
 
 var data = [
-  {name: "Locke",    value:  4},
-  {name: "Reyes",    value:  8},
-  {name: "Ford",     value: 15},
-  {name: "Jarrah",   value: 16},
-  {name: "Shephard", value: 23},
-  {name: "Kwon",     value: 42}
+  {'name': '가', 'value' : .8167},
+  {'name': '나', 'value' : .4167},
+  {'name': '다', 'value' : .3167},
+  {'name': '라', 'value' : .6167},
+  {'name': '마', 'value' : .3167},
+  {'name': '바', 'value' : .5167},
+  {'name': '사', 'value' : .3167},
+  {'name': '아', 'value' : .1167}
 ];
 
-var width = 420,
-    barHeight = 20;
+var info = {
+  width:500, /* svg 너비*/
+  height:300, /* svg 높이*/
+  margin:{ /* 마진*/
+    top:20,
+    right:30,
+    bottom:30,
+    left:40
+  }
+};
 
-var scaling = d3.scale.linear() /* range 범위 정의후 변환값을 리턴함*/
-  .domain([0, d3.max(data, function(d){return d.value;})]) /* 범위 최소값부터 최대값으로 지정 d3.max() 어레이내 최대값 리턴*/
-  .range([0, width]); /* width 범위까지 지정*/
+info.width = info.width - info.margin.left - info.margin.right; /* 좌우 마진뺀 후의 너비*/
+info.height = info.height - info.margin.top - info.margin.bottom; /* 상하 마진뺀 후의 높이*/
 
+/* x의 scale 정의*/
+var x = d3.scale.ordinal()
+  .domain(data.map(function(d){return d.name; })) /* 어레이내 name값 나열*/
+  .rangeRoundBands([0, info.width], .1); /* 너비 지정 세번째 인자는 좌우간의 간격값*/
 
-var chart = d3.select('.chart') /* 데이터를 집어넣을 수 있는 요소를 찾아 정의함 */
-  .attr('width', width) /* chart가 선언된 태그의 width값을 정의*/
-  .attr('height', barHeight * data.length) /* chart가 선언된 태그의 height값을 정의 barHeight 곱하기 데이터 랭쓰만큼 늘림*/
-  .style('border', '1px solid black'); /* css 속성 보더주입*/
+/* y의 scale 정의*/
+var y = d3.scale.linear()
+  .domain([0, d3.max(data, function(d){return d.value; })]) /* d3,max() 어레이내 최대값*/
+  .range([info.height, 0]); /* 높이지정*/
 
-var bar = chart.selectAll('g') /* 요소를 찾음 */
-  .data(data) /* 데이터를 주입하고 */
-  .enter().append('g') /* 요소에 바인딩하고 g태그 그룹태그를 어펜트함 */
-  .attr('transform', function(d, i) { return 'translate(0 , ' + i * barHeight + ')'; }); /*trans 이동 요소 정의 */
+/* x의 axis 정의*/
+var xAxis = d3.svg.axis() /* axis 호출 함수 선언*/
+  .scale(x) /* x내 정의된 값으로 초기화*/
+  .orient('bottom'); /* 바텀에 위치*/
 
-bar.append('rect') /* g태그 그룹안에 rect태그 어펜드함 */
-  .attr('width', function(d){return scaling(d.value); }) /*width값줌 */
-  .attr('height', barHeight -1); /*컨테이너 높이 곱하기 배열의 랭쓰만큼 */
+/* y의 axis 정의*/
+var yAxis = d3.svg.axis() /* axis 호출 함수 선언*/
+  .scale(y) /* y내 정의된 값으로 초기화*/
+  .orient('left') /* 레프트에 위치*/
+  .ticks(10, "%"); /* 정의된 문자 변환*/
 
-bar.append('text') /* g태그 그룹안에 text태그 어펜드함 */
-  .attr('x', function(d){return scaling(d.value)-3; }) /* 주입된 date 배열에 맞게 width값을 정의하고 */
-  .attr('y', barHeight /2 ) /* svg 컨테이너의 높이값 나누기2에 맞게 정의 */
-  .attr('dy', '.35em') /* y축 정의 */
-  .text(function(d){return d.value; }); /* 주입된 data 배열에 맞게 text를 정의함 */
+/* 클래스 .chart가 선언된 태그의 너비와 높이를 정의함*/
+var chart = d3.select('.chart') /* .char 클래스가 선언된 태그를 찾음*/
+  .attr('width', info.width + info.margin.left + info.margin.right) /* width값 정의해줌 일전에 빼둔 margin값 더하여 실제 너비값으로 초기화*/
+  .attr('height', info.height + info.margin.top + info.margin.bottom) /* height값 정의해줌 일전에 빼둔 margin값 더하여 실제 높이값으로 초기화*/
+  .append('g') /* g 그룹태그를 어펜드해줌*/
+  .attr('transform', 'translate(' + info.margin.left + ',' + (info.margin.top) + ')'); /* 선언된 컨테이너의 마진 조정함*/
+
+chart.append('g')
+    .attr('class', 'x axis')
+    .attr('transform', 'translate(0,' + info.height + ')')
+    .call(xAxis);
+
+chart.append('g')
+    .attr('class', 'y axis')
+    .call(yAxis);
+
+chart.selectAll('.bar')
+      .data(data)
+    .enter().append('rect')
+      .attr('class', 'bar')
+      .attr('x', function(d) { return x(d.name); })
+      .attr('y', function(d) { return y(d.value); })
+      .attr('height', function(d) { return info.height - y(d.value); })
+      .attr('width', x.rangeBand());
