@@ -1,0 +1,13 @@
+/* general_update_pattern_style.css*/
+
+body{
+  background-color:black;
+}
+
+text{
+  font: bold 13x monospace;
+}
+
+.enter{
+  fill: white;
+}
