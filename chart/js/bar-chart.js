@@ -75,6 +75,7 @@ var bar = chart.selectAll('.bar') /* .bar 클래스 찾음*/
 
 bar.on('mouseover', function(d){
   console.log('name : '+ d.name + 'value : '+ d.value);
+
 });
 
 bar.on('mouseout', function(d){

@@ -31,3 +31,9 @@
 .x.axis path{
   display:none;
 }
+
+.tooltip{
+  display:none;
+  boarder : 1px solid red;
+  color : red;
+}
