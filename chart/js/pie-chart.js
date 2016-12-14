@@ -32,23 +32,21 @@ var arc = d3.svg.arc().outerRadius(info.radius);
 
 var arcs = vis.selectAll("g.slice")
   .data(pie)
-  .enter().append("svg:g")
-  .attr("class", "slice");
+  .enter().append("svg:g");
 
 var arcsPie = arcs.append("svg:path")
   .attr("fill", function(d, i){ return info.color(i); })
-  .attr("d", function (d) { console.log(arc(d));return arc(d); });
+  .attr("d", function (d) {return arc(d); })
+  .attr("class", "pie");
 
 var arcsText = arcs.append("svg:text")
   .attr("transform", function(d){
     d.innerRadius = 0; d.outerRadius = info.radius;
     return "translate(" + arc.centroid(d) + ")";
   })
-    .attr("text-anchor", "middle")
-    .text(function(d, i){
-      return data[i].name;
-    }
-  );
+  .attr("text-anchor", "middle")
+  .text(function(d, i){ return data[i].name; }
+);
 
 
 arcsPie.on('mouseover', function(d, i){

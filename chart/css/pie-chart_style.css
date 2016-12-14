@@ -1,1 +1,5 @@
 /* pie-chart_style.css */
+
+.pie:hover {
+  fill: red;
+}
