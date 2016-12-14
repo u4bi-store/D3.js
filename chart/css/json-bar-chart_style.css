@@ -1,0 +1,11 @@
+/* json-bar-chart_style.css*/
+
+
+.chart rect {
+  stroke: none;
+  fill: steelblue;
+}
+
+.chart rect:hover{
+  fill:red;
+}
